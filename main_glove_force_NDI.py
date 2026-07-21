@@ -30,7 +30,6 @@ frame = pd.DataFrame(columns=["Fx", "Fy", "Fz", "Tx", "Ty", "Tz"])
 frame.to_csv(force_filename, index=False)
 
 ndi_filename = "./result/NDIdata_" + now + ".csv"
-# frame = pd.DataFrame(columns=["x1", "y1", "z1", "x2", "y2", "z2"])
 frame = pd.DataFrame(columns=["x1", "y1", "z1"])
 frame.to_csv(ndi_filename, index=False)
 
@@ -68,15 +67,15 @@ def NDI_track():
 
 # UDP data-glove configuration. Uncomment this block before enabling the glove
 # acquisition thread, and update the address and data fields if required.
-# HOST = "127.0.0.1"
-# PORT = 5555
-# BUFSIZ = 10240
-# ADDR = (HOST, PORT)
-# print(ADDR)
-# UDPCliSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# target_names = [f"l{i}" for i in range(28)] + [f"r{i}" for i in range(28)]
-# csv_columns = target_names
-# csv_glove_name = "./result/Glovedata_" + now + ".csv"
+HOST = "127.0.0.1"
+PORT = 5555
+BUFSIZ = 10240
+ADDR = (HOST, PORT)
+print(ADDR)
+UDPCliSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+target_names = [f"l{i}" for i in range(28)] + [f"r{i}" for i in range(28)]
+csv_columns = target_names
+csv_glove_name = "./result/Glovedata_" + now + ".csv"
 
 
 def Glove():
@@ -174,10 +173,10 @@ if __name__ == "__main__":
 
     import threading
 
-    # NDI_thread = threading.Thread(target=NDI_track)
-    # Glove_thread = threading.Thread(target=Glove)
+    NDI_thread = threading.Thread(target=NDI_track)
+    Glove_thread = threading.Thread(target=Glove)
     Force_thread = threading.Thread(target=force)
-    # NDI_thread.start()
-    # Glove_thread.start()
+    NDI_thread.start()
+    Glove_thread.start()
     Force_thread.start()
     keyboard.on_press(on_esc_press)
